@@ -1,4 +1,4 @@
-# Scaling Test Bed
+# NapthaAI - Scaling Test Bed 🚀
 
 
 ## Pre-requisites
@@ -21,8 +21,11 @@ or with auto-restart:
 watchmedo auto-restart --directory=. --pattern='scale/*.py' --recursive -- celery -A scale.celery_app worker -l INFO --concurrency 1
 ```
 
-python workflows/contest.py
+Run the keynesian_beauty_contest task:
 
+```
+python workflows/contest.py
+```
 
 
 ## Monitoring

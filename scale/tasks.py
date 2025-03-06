@@ -14,7 +14,7 @@ logger = logging.getLogger(__name__)
 @app.task(bind=True, acks_late=True)
 def generate_random_number(self) -> str:
     """generate a random int"""
-    time.sleep(1.0)
+    # time.sleep(1.0)
     return str(random.randint(0, 100))
 
 # using GROUP (doesn't wait for all tasks to finish)

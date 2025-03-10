@@ -5,7 +5,8 @@
 
 - macOS
 - install deps with `bash launch.sh`
-
+- `rabbitmq-plugins enable rabbitmq_management`
+- https://www.rabbitmq.com/docs/management#command-line-examples-create-a-user-with-monitoring-only-access
 
 ## Develop
 
@@ -46,6 +47,8 @@ Visit: http://localhost:5555/workers
 ```
 rabbitmqctl list_queues name messages messages_ready messages_unacknowledged
 ```
+
+or visit: http://localhost:15672/#/
 
 ## Clean up
 

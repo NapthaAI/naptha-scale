@@ -6,6 +6,7 @@ from utils import get_queue
 
 
 def check_queue():
+    """Sometimes (with concurrency=1) queue length drops to 0 in mid-flight, hence check multiple times"""
     ql = int(get_queue()['messages'])
     if ql > 0:
         return ql
@@ -13,7 +14,7 @@ def check_queue():
         # check queue again three times
         finished = True
         for i in range(3):
-            time.sleep(4)
+            time.sleep(2)
             ql = int(get_queue()['messages'])
             if ql > 0:
                 finished = False
@@ -26,11 +27,11 @@ def check_queue():
 # run contest
 
 ist = time.time()
-res = task_keynesian_beauty_contest.delay(50_000)
+res = task_keynesian_beauty_contest.delay(1_000_000)
+# give it some time to start
 time.sleep(5)
-
 while check_queue() > 0:
-    time.sleep(1)
+    time.sleep(4)
 
 # TODO fetch runtime from celery instead of using time.sleep
 iet = time.time()

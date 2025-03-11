@@ -13,7 +13,7 @@
 Run celery:
 
 ```
-celery -A scale.celery_app  worker -l INFO --concurrency 1
+celery -A scale.celery_app  worker -l INFO --concurrency 120
 ```
 
 or with auto-restart:

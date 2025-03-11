@@ -47,6 +47,8 @@ if [ "$os" = "Darwin" ]; then
     launchctl unload $LAUNCH_AGENTS_PATH/com.example.ollama.plist
     brew services stop rabbitmq
 
+    brew services stop redis
+
     # Remove the service files
     rm $LAUNCH_AGENTS_PATH/com.example.celeryworker.plist
     rm $LAUNCH_AGENTS_PATH/com.example.nodeapp.http.plist

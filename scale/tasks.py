@@ -20,7 +20,7 @@ def generate_random_number(self) -> str:
 # using GROUP (doesn't wait for all tasks to finish)
 
 @app.task(bind=True, acks_late=False)
-def task_keynesian_beauty_contest(self, num_agents: int) -> str:
+def task_keynesian_beauty_contest_group(self, num_agents: int) -> str:
     """Run a contest with num_agents"""
     logger.info(f"Running {num_agents} agents...")
     res = group(generate_random_number.s() for i in range(num_agents))()
@@ -30,9 +30,10 @@ def task_keynesian_beauty_contest(self, num_agents: int) -> str:
 # using CHORD
 # Result backends that supports chords: Redis, Database, Memcached, and more.
 
-@app.task(bind=True, acks_late=False, trail=True)
+@app.task
 def my_foo_callback(numbers):
-    return str(numbers)
+    logger.info(f"Foo callback 2")
+    return (numbers)
 
 @app.task(bind=True, acks_late=False, trail=True)
 def task_keynesian_beauty_contest_chord(self, num_agents: int) -> str:

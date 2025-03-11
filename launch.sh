@@ -648,6 +648,40 @@ darwin_start_rabbitmq() {
     echo "RabbitMQ started with management console on default port." | log_with_service_name "RabbitMQ" $PINK
 }
 
+# Function to start Redus on macOS
+darwin_start_redis() {
+    echo "Starting Redis on macOS..." | log_with_service_name "Redis" $PINK
+
+    # Load the .env file
+    set -a
+    source .env
+    set +a
+
+    # Install RabbitMQ using Homebrew
+    if ! brew list redis &>/dev/null; then
+        echo "Redis not found. Installing Redis..."
+        brew install redis
+    else
+        echo "Redis is already installed. Skipping installation."
+    fi
+
+    
+    # Start Redis
+    brew services start redis
+
+    # # Check if the user already exists
+    # if rabbitmqctl list_users | grep -q "^$RMQ_USER"; then
+    #     echo "User '$RMQ_USER' already exists. Skipping user creation."
+    # else
+    #     # Create a new user with the credentials from .env
+    #     rabbitmqctl add_user "$RMQ_USER" "$RMQ_PASSWORD"
+    #     rabbitmqctl set_user_tags "$RMQ_USER" administrator
+    #     rabbitmqctl set_permissions -p / "$RMQ_USER" ".*" ".*" ".*"
+    # fi
+
+    echo "Redis started with management console on default port." | log_with_service_name "Redis" $PINK
+}
+
 # Function to set up poetry within Miniforge environment
 setup_poetry() {
     echo "Setting up Poetry..." | log_with_service_name "Poetry" "$BLUE"
@@ -2144,13 +2178,14 @@ main() {
             install_python312
             darwin_install_miniforge
             darwin_clean_node
-            darwin_setup_local_db
+            # darwin_setup_local_db
             setup_poetry
             # install_surrealdb
             # check_and_copy_env
             # darwin_install_ollama
             # darwin_install_docker
             darwin_start_rabbitmq
+            darwin_start_redis
             # check_and_set_private_key
             # start_hub_surrealdb
             # darwin_start_local_db

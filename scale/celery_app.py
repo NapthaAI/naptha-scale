@@ -15,7 +15,8 @@ BACKEND_URL = f"rpc://{RMQ_USER}:{RMQ_PASSWORD}@{RMQ_HOST}:5672/"
 app = Celery(
     "scale",
     broker=BROKER_URL,
-    backend=BACKEND_URL,
+    backend='redis://localhost:6379/0',
+    # backend=BACKEND_URL,
     include=[ "scale.tasks" ],
 )
 
